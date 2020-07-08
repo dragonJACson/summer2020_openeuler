@@ -1,0 +1,33 @@
+From d0ba800878504e871de37940477b631b88c019fc Mon Sep 17 00:00:00 2001
+From: Luke Yue <lukedyue@gmail.com>
+Date: Wed, 8 Jul 2020 11:32:56 +0800
+Subject: [PATCH] feat(font): enable CONFIG_FONT_TER16x32 and CONFIG_FONTS
+
+enable these two config will not significantly increase kernel image or
+module size, but can significantly improve the user experience when using a high
+resolution monitor.
+
+Signed-off-by: Luke Yue <lukedyue@gmail.com>
+---
+ arch/arm64/configs/openeuler-raspi_defconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/configs/openeuler-raspi_defconfig b/arch/arm64/configs/openeuler-raspi_defconfig
+index f152738b01ba..362555d54836 100644
+--- a/arch/arm64/configs/openeuler-raspi_defconfig
++++ b/arch/arm64/configs/openeuler-raspi_defconfig
+@@ -7673,9 +7673,10 @@ CONFIG_LIBFDT=y
+ CONFIG_OID_REGISTRY=y
+ CONFIG_UCS2_STRING=y
+ CONFIG_FONT_SUPPORT=y
+-# CONFIG_FONTS is not set
++CONFIG_FONTS=y
+ CONFIG_FONT_8x8=y
+ CONFIG_FONT_8x16=y
++CONFIG_FONT_TER16x32=y
+ CONFIG_SG_POOL=y
+ CONFIG_ARCH_HAS_SG_CHAIN=y
+ CONFIG_ARCH_HAS_PMEM_API=y
+-- 
+2.27.0
+
