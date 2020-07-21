@@ -1,0 +1,12 @@
+diff -urN Xfce-Theme-Manager-xfce-theme-manager-0.3.8-orig/Xfce-Theme-Manager/src/database.cpp Xfce-Theme-Manager-xfce-theme-manager-0.3.8/Xfce-Theme-Manager/src/database.cpp
+--- Xfce-Theme-Manager-xfce-theme-manager-0.3.8-orig/Xfce-Theme-Manager/src/database.cpp	2018-08-06 16:23:49.000000000 -0300
++++ Xfce-Theme-Manager-xfce-theme-manager-0.3.8/Xfce-Theme-Manager/src/database.cpp	2019-07-16 17:40:06.046723248 -0300
+@@ -527,7 +527,7 @@
+ 											if(g_key_file_load_from_file(keyfile,indexfile,G_KEY_FILE_NONE,NULL))
+ 												displayname=g_key_file_get_string(keyfile,"Icon Theme","Name",NULL);
+ 											else
+-												asprintf(&displayname,entry);
++												asprintf(&displayname,"%s",entry);
+ 
+ 											asprintf(&thumbfile,"%s/%s.png",cursorsFolder,entry);
+ 											makecursor((char*)entry,thumbfile);
