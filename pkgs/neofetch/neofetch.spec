@@ -1,11 +1,13 @@
 Name:           neofetch
 Version:        7.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        CLI system information tool written in Bash
 
 License:        MIT
 URL:            https://github.com/dylanaraps/%{name}
 Source0:        https://github.com/dylanaraps/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+
+Patch0:         0001-Add-openEuler.patch
 
 BuildArch:      noarch
 Requires:       bash >= 3.2
