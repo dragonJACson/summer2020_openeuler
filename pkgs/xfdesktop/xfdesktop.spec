@@ -28,7 +28,7 @@ BuildRequires:  libICE-devel
 Requires:       xfwm4 >= %{xfceversion}
 Requires:       xfce4-panel >= %{xfceversion}
 Requires:       redhat-menus
-Requires:       desktop-backgrounds-compat
+Requires:       openEuler-logos
 
 
 %description
