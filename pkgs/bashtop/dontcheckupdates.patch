@@ -1,0 +1,12 @@
+diff -urN bashtop-0.8.30-orig/bashtop bashtop-0.8.30/bashtop
+--- bashtop-0.8.30-orig/bashtop	2020-05-13 20:51:58.000000000 +0200
++++ bashtop-0.8.30/bashtop	2020-05-13 23:17:07.811002489 +0200
+@@ -116,7 +116,7 @@
+ disks_filter=""
+ 
+ #* Enable check for new version from github.com/aristocratos/bashtop at start
+-update_check="true"
++update_check="false"
+ 
+ #* Enable graphs with double the horizontal resolution, increases cpu usage
+ hires_graphs="false"
