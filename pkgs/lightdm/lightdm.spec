@@ -30,6 +30,9 @@ Source25:	50-disable-guest.conf
 Source26:	50-remove-wayland-session.conf
 Source27:	50-run-directory.conf
 
+# X session wrapper
+Source30:	Xsession
+
 # Upstreamed:
 Patch0:		%{giturl}/pull/5.patch#/lightdm-1.25.1-disable_dmrc.patch
 
@@ -65,8 +68,6 @@ Requires:	polkit-js-engine
 %endif
 Requires:	systemd
 Requires:	xorg-x11-xinit
-
-Requires:   (lightdm-greeter = 1.2 if xorg-x11-server)
 
 %{?systemd_requires}
 
@@ -194,6 +195,7 @@ rm -fv %{buildroot}%{_libdir}/lib*.la
 %{__install} -Dpm 0644 %{SOURCE15} %{buildroot}%{_datadir}/polkit-1/rules.d/lightdm.rules
 %{__install} -pm 0644 %{SOURCE20} %{SOURCE21} %{SOURCE22} %{SOURCE23}	\
     %{SOURCE24} %{SOURCE25} %{SOURCE26} %{SOURCE27} %{buildroot}%{_datadir}/lightdm/lightdm.conf.d/
+%{__install} -Dpm 0755 %{SOURCE30} %{buildroot}%{_sysconfdir}/lightdm/Xsession
 
 # Move DBus config to proper location.
 # why is this needed? -- rex
@@ -233,6 +235,7 @@ fi
 %doc NEWS
 %dir %{_sysconfdir}/lightdm/
 %dir %{_sysconfdir}/lightdm/lightdm.conf.d
+%{_sysconfdir}/lightdm/Xsession
 %config(noreplace) %{_sysconfdir}/pam.d/lightdm*
 %config(noreplace) %{_sysconfdir}/lightdm/keys.conf
 %config(noreplace) %{_sysconfdir}/lightdm/lightdm.conf

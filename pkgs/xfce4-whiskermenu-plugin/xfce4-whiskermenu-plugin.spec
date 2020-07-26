@@ -24,22 +24,26 @@ Requires:	hicolor-icon-theme
 
 
 %description
-Alternate application launcher for Xfce. When you open it you are shown 
+Alternate application launcher for Xfce. When you open it you are shown
 a list of applications you have marked as favorites. You can browse through
 all of your installed applications by clicking on the category buttons on the
-side. Top level categories make browsing fast, and simple to switch between. 
-Additionally, Whisker Menu keeps a list of the last ten applications 
+side. Top level categories make browsing fast, and simple to switch between.
+Additionally, Whisker Menu keeps a list of the last ten applications
 that you’ve launched from it
 
 %prep
 %setup -q
 
 %build
-%cmake
-%cmake_build
+mkdir build && pushd build
+%cmake ..
+%make_build
+popd
 
 %install
-%cmake_install
+pushd build
+%make_install
+popd
 
 %find_lang %{name}
 
@@ -50,7 +54,7 @@ that you’ve launched from it
 %doc README NEWS
 %{_bindir}/xfce4-popup-whiskermenu
 %{_libdir}/xfce4/panel/plugins/libwhiskermenu.so
-# Type=X-XFCE-PanelPlugin is a valid extension of freedesktop.org specs, but 
+# Type=X-XFCE-PanelPlugin is a valid extension of freedesktop.org specs, but
 # desktop-file-utils refuse to install or verify these files
 %{_datadir}/xfce4/panel/plugins/whiskermenu.desktop
 %{_datadir}/icons/hicolor/*/apps/xfce4-whiskermenu.*g
