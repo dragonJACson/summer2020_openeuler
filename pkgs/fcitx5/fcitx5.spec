@@ -17,7 +17,7 @@
 
 
 Name:           fcitx5
-Version:        4.99.0+git20200718.327912d
+Version:        4.99.0+git20200730.297308b
 Release:        1
 Summary:        Next generation of fcitx
 License:        LGPL-2.1-or-later
@@ -29,8 +29,6 @@ Source2:        https://raw.githubusercontent.com/fcitx/fcitx-artwork/master/log
 Source3:        xim.d-fcitx5
 Source4:        macros.fcitx5
 Source99:       baselibs.conf
-
-Patch:          fcitx5-no-download.patch
 
 BuildRequires:  cldr-emoji-annotation-devel
 BuildRequires:  cmake
@@ -110,14 +108,14 @@ This package provides utility libraries for fcitx5.
 %prep
 %setup -q
 %patch -p1
-cp -r %{S:1} src/modules/spell/dict/
+ln -s %{SOURCE1} src/modules/spell/dict/
 
 %build
-%cmake -DENABLE_PRESAGE=On -DCMAKE_SKIP_RPATH=OFF
-make %{?_smp_mflags}
+%cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=/usr/lib .
+%make_build
 
 %install
-%cmake_install
+%make_install
 
 # create autostart
 mkdir -p %{buildroot}%{_sysconfdir}/X11/xim.d/

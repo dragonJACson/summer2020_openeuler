@@ -63,14 +63,14 @@ This package provides development files for xcb-imdkit.
 make %{?_smp_mflags}
 
 %install
-%cmake_install
+%make_install
 
 %post -n libxcb-imdkit%{_suffix} -p /sbin/ldconfig
 %postun -n libxcb-imdkit%{_suffix} -p /sbin/ldconfig
 
 %files -n libxcb-imdkit%{_suffix}
 %defattr(-,root,root)
-%doc LICENSE README.md
+%doc LICENSES/LGPL-2.1-only.txt README.md
 %{_libdir}/libxcb-imdkit.so.%{_suffix}
 %{_libdir}/libxcb-imdkit.so.%{_suffix}.1
 
