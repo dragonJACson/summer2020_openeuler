@@ -142,9 +142,9 @@ cmake \
         -DLIB_INSTALL_DIR:PATH=%{_libdir} \
         -DSYSCONF_INSTALL_DIR:PATH=%{_sysconfdir} \
         -DSHARE_INSTALL_PREFIX:PATH=%{_datadir} \
-%if "lib64" == "lib64" 
+%if "lib64" == "lib64"
         -DLIB_SUFFIX=64 \
-%endif 
+%endif
         -DBUILD_SHARED_LIBS:BOOL=OFF .
 
 make %{?_smp_mflags}
@@ -154,7 +154,7 @@ make %{?_smp_mflags}
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -type f -name 'lib*.a' | xargs rm -f
 
-desktop-file-install --vendor="%{?desktop_vendor}" --delete-original --remove-key=TargetEnvironment \
+desktop-file-install --delete-original --remove-key=TargetEnvironment \
         --dir $RPM_BUILD_ROOT%{_datadir}/applications   \
         $RPM_BUILD_ROOT%{_datadir}/applications/org.inkscape.Inkscape.desktop
 
@@ -645,7 +645,7 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/doc/inkscape/copyright
 * Wed Jun 27 2012 Petr Pisar <ppisar@redhat.com> - 0.48.2-9
 - Perl 5.16 rebuild
 
-* Sat Jun 23 2012 Rex Dieter <rdieter@fedoraproject.org> 
+* Sat Jun 23 2012 Rex Dieter <rdieter@fedoraproject.org>
 - 0.48.2-8
 - fix icon/desktop-file scriptlets (#739375)
 - drop .desktop vendor (f18+)

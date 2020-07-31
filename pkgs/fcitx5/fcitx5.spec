@@ -37,34 +37,29 @@ BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
 BuildRequires:  gcc-c++
 BuildRequires:  xcb-imdkit-devel
-BuildRequires:  libpresage-devel
 BuildRequires:  enchant-devel
 BuildRequires:  systemd-devel
-BuildRequires:  dbus-1-devel
+BuildRequires:  dbus-devel
 BuildRequires:  libevent-devel
-BuildRequires:  libjson-c-devel
+BuildRequires:  json-c-devel
 BuildRequires:  libuuid-devel
 BuildRequires:  fmt-devel
 BuildRequires:  xcb-util-wm-devel
 BuildRequires:  xcb-util-keysyms-devel
 BuildRequires:  libxkbfile-devel
 BuildRequires:  iso-codes-devel
-BuildRequires:  libexpat-devel
+BuildRequires:  expat-devel
 BuildRequires:  xkeyboard-config
 BuildRequires:  libxkbcommon-devel
 BuildRequires:  libxkbcommon-x11-devel
 BuildRequires:  wayland-devel
 BuildRequires:  wayland-protocols-devel
-BuildRequires:  Mesa-libEGL-devel
+BuildRequires:  mesa-libEGL-devel
 BuildRequires:  pango-devel
 BuildRequires:  cairo-devel
-BuildRequires:  gdk-pixbuf-devel
-BuildRequires:  update-desktop-files
-%if 0%{suse_version} >= 1550 || 0%{?sle_version} == 150200 && 0%{?is_opensuse}
-BuildRequires:  rsvg-convert
-%else
-BuildRequires:  rsvg-view
-%endif
+BuildRequires:  gdk-pixbuf2-devel
+BuildRequires:  librsvg2
+BuildRequires:  desktop-file-utils
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  fdupes
 Requires:       libFcitx5Config5 = %{version}
@@ -147,9 +142,15 @@ for i in 16 22 24 32 48 512; do
 done
 install -D -m 0644 %{S:2} %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/fcitx.svg
 
-# install desktop files
-%suse_update_desktop_file fcitx5 Utility DesktopUtility
-%suse_update_desktop_file -r fcitx5-configtool System X-SuSE-SystemSetup
+desktop-file-install                                    \
+        --delete-original                               \
+        --dir %{buildroot}%{_datadir}/applications      \
+        %{buildroot}%{_datadir}/applications/fcitx5.desktop
+
+desktop-file-install                                    \
+        --delete-original                               \
+        --dir %{buildroot}%{_datadir}/applications      \
+        %{buildroot}%{_datadir}/applications/fcitx5-configtool.desktop
 
 # own directories
 mkdir -p %{buildroot}%{_datadir}/fcitx5/inputmethod
