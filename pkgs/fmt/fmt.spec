@@ -1,4 +1,4 @@
-%bcond_without doc
+%bcond_with doc
 Name:           fmt
 Version:        6.2.1
 Release:        1%{?dist}
