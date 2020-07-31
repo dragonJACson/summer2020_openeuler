@@ -14,7 +14,7 @@
 
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
-
+%global debug_package %{nil}
 
 Name:           fcitx5
 Version:        4.99.0+git20200730.297308b
@@ -48,6 +48,7 @@ BuildRequires:  libxkbfile-devel
 BuildRequires:  iso-codes-devel
 BuildRequires:  expat-devel
 BuildRequires:  xkeyboard-config
+BuildRequires:  xkeyboard-config-devel
 BuildRequires:  libxkbcommon-devel
 BuildRequires:  libxkbcommon-x11-devel
 BuildRequires:  wayland-devel
@@ -111,7 +112,7 @@ This package provides utility libraries for fcitx5.
 ln -s %{SOURCE1} src/modules/spell/dict/
 
 %build
-%cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=/usr/lib .
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=/usr/lib64 .
 %make_build
 
 %install
@@ -171,7 +172,7 @@ install -Dm 0755 %{S:4} %{buildroot}%{_sysconfdir}/rpm/macros.fcitx5
 
 %files -f fcitx5.lang
 %defattr(-,root,root)
-%doc README.md COPYING
+%doc README.md LICENSES/LGPL-2.1-or-later.txt
 %config %{_sysconfdir}/X11/xim.d/
 %{_bindir}/fcitx5
 %{_bindir}/fcitx5-configtool
