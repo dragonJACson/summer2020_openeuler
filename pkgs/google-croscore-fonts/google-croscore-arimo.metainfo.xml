@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 Parag Nemade <pnemade AT redhat DOT com> -->
+<component type="font">
+  <id>google-croscore</id>
+  <metadata_license>CC-BY-3.0</metadata_license>
+  <name>Arimo</name>
+  <summary>The croscore Arimo family fonts</summary>
+  <description>
+    <p>
+      Arimo was designed by Steve Matteson as an innovative, refreshing sans serif
+      design that is metrically compatible with Arial. Arimo offers improved
+      on-screen readability characteristics and the pan-European WGL character set
+      and solves the needs of developers looking for width-compatible fonts to
+      address document portability across platforms.
+    </p>
+  </description>
+  <updatecontact>pnemade_at_redhat_dot_com</updatecontact>
+  <url type="homepage"></url>
+</component>
+
