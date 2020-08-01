@@ -57,7 +57,6 @@ This package provides GClient library for fcitx5.
 %package -n fcitx5-gtk2
 Summary:        GTK+ 2.0 im module for fcitx5
 Group:          System/I18n/Chinese
-%gtk2_immodule_requires
 Provides:       fcitx-gtk2 = %{version}
 Obsoletes:      fcitx-gtk2 <= 4.2.9.6
 
@@ -67,7 +66,6 @@ This package provides GTK+ 2.0 im module for fcitx5.
 %package -n fcitx5-gtk3
 Summary:        GTK+ 3.0 im module for fcitx5
 Group:          System/I18n/Chinese
-%gtk3_immodule_requires
 Provides:       fcitx-gtk3 = %{version}
 Obsoletes:      fcitx-gtk3 <= 4.2.9.6
 
@@ -91,7 +89,7 @@ This package provides the GObject Introspection bindings for fcitx5.
 make %{?_smp_mflags}
 
 %install
-%cmake_install
+%make_install
 
 %post -n libFcitx5GClient1 -p /sbin/ldconfig
 %post -n fcitx5-gtk2
