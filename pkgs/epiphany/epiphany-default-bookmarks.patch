@@ -1,0 +1,52 @@
+From fd32feaeb87b10c65c20bb99ac1cbd6b03cc3a2d Mon Sep 17 00:00:00 2001
+From: Michael Catanzaro <mcatanzaro@igalia.com>
+Date: Thu, 12 May 2016 20:04:16 -0500
+Subject: [PATCH] Fedora bookmarks
+
+---
+ data/default-bookmarks.rdf.in | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/data/default-bookmarks.rdf.in b/data/default-bookmarks.rdf.in
+index 6c3440e..a0c08e1 100644
+--- a/data/default-bookmarks.rdf.in
++++ b/data/default-bookmarks.rdf.in
+@@ -7,5 +7,10 @@
+       <rdf:Seq>
+         <rdf:li rdf:resource="https://www.gnome.org/"/>
++        <rdf:li rdf:resource="https://www.redhat.com/"/>
++        <rdf:li rdf:resource="https://www.fedoraproject.org/"/>
++        <rdf:li rdf:resource="https://fedoramagazine.org/"/>
++        <rdf:li rdf:resource="https://ask.fedoraproject.org/"/>
++        <rdf:li rdf:resource="https://docs.fedoraproject.org/"/>
+       </rdf:Seq>
+     </items>
+   </channel>
+@@ -18,4 +23,24 @@
+     <title>GNOME</title>
+     <link>https://www.gnome.org/</link>
+   </item>
++  <item rdf:about="https://www.redhat.com/">
++    <title>Red Hat</title>
++    <link>https://www.redhat.com/</link>
++  </item>
++  <item rdf:about="https://www.fedoraproject.org/">
++    <title>Fedora</title>
++    <link>https://www.fedoraproject.org/</link>
++  </item>
++  <item rdf:about="https://fedoramagazine.org/">
++    <title>Fedora Magazine</title>
++    <link>https://fedoramagazine.org/</link>
++  </item>
++  <item rdf:about="https://ask.fedoraproject.org/">
++    <title>Ask Fedora</title>
++    <link>https://ask.fedoraproject.org/</link>
++  </item>
++  <item rdf:about="https://docs.fedoraproject.org/">
++    <title>Fedora Documentation</title>
++    <link>https://docs.fedoraproject.org/</link>
++  </item>
+ </rdf:RDF>
+-- 
+2.7.4
+

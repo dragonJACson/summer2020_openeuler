@@ -1,0 +1,21 @@
+From: Jeremy Bicha <jbicha@debian.org>
+Date: Sun, 18 Feb 2018 15:24:30 -0500
+Subject: Since Epiphany is not our default browser,
+
+allow users to uninstall it using the GNOME Software app
+---
+ data/org.gnome.Epiphany.appdata.xml.in.in | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/data/org.gnome.Epiphany.appdata.xml.in.in b/data/org.gnome.Epiphany.appdata.xml.in.in
+index 220d9bd..f8bf74b 100644
+--- a/data/org.gnome.Epiphany.appdata.xml.in.in
++++ b/data/org.gnome.Epiphany.appdata.xml.in.in
+@@ -32,7 +32,6 @@
+     <kudo>UserDocs</kudo>
+   </kudos>
+   <project_group>GNOME</project_group>
+-  <compulsory_for_desktop>GNOME</compulsory_for_desktop>
+   <project_license>GPL-3.0+</project_license>
+   <developer_name>The GNOME Project</developer_name>
+   <url type="bugtracker">https://gitlab.gnome.org/GNOME/epiphany/issues</url>
