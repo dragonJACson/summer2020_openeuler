@@ -1,6 +1,7 @@
 %global _xinputconf %{_sysconfdir}/X11/xinit/xinput.d/fcitx.conf
 %{!?gtk2_binary_version: %global gtk2_binary_version %(pkg-config  --variable=gtk_binary_version gtk+-2.0)}
 %{!?gtk3_binary_version: %global gtk3_binary_version %(pkg-config  --variable=gtk_binary_version gtk+-3.0)}
+%global _with_qt4      0
 
 Name:			fcitx
 Summary:		An input method framework
@@ -14,7 +15,8 @@ BuildRequires:		gcc-c++
 BuildRequires:		pango-devel, dbus-devel, opencc-devel
 BuildRequires:		wget, intltool, chrpath, sysconftool, opencc
 BuildRequires:		cmake, libtool, doxygen, libicu-devel
-BuildRequires:		qt4-devel, gtk3-devel, gtk2-devel, libicu
+%{?_with_qt4:BuildRequires:		qt-devel}
+BuildRequires:		gtk3-devel, gtk2-devel, libicu
 BuildRequires:		xorg-x11-proto-devel, xorg-x11-xtrans-devel
 BuildRequires:		gobject-introspection-devel, libxkbfile-devel
 BuildRequires:		enchant-devel, iso-codes-devel, libicu-devel
@@ -90,6 +92,7 @@ Requires:		imsettings-gnome
 %description gtk3
 This package contains Fcitx IM module for gtk3.
 
+%if 0%{?_with_qt4}
 %package qt4
 Summary:		Fcitx IM module for qt4
 Requires:		%{name} = %{version}-%{release}
@@ -97,6 +100,7 @@ Requires:		%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description qt4
 This package contains Fcitx IM module for qt4.
+%endif
 
 %package pinyin
 Summary:		Pinyin Engine for Fcitx
@@ -167,10 +171,10 @@ desktop-file-install --delete-original \
   --dir %{buildroot}%{_datadir}/applications \
   %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-%post 
+%post
 %{_sbindir}/alternatives --install %{_sysconfdir}/X11/xinit/xinputrc xinputrc %{_xinputconf} 55 || :
 
-%postun  
+%postun
 if [ "$1" = "0" ]; then
   %{_sbindir}/alternatives --remove xinputrc %{_xinputconf} || :
   # if alternative was set to manual, reset to auto
@@ -293,8 +297,10 @@ fi
 %files gtk3
 %{_libdir}/gtk-3.0/%{gtk3_binary_version}/immodules/im-fcitx.so
 
+%if 0%{?_with_qt4}
 %files qt4
 %{_libdir}/qt4/plugins/inputmethods/qtim-fcitx.so
+%endif
 
 %changelog
 * Sun Dec  1 2019 Robin Lee <cheeselee@fedoraproject.org> - 4.2.9.7-1
@@ -496,11 +502,11 @@ fi
 
 * Tue Aug 02 2011 Liang Suilong <liangsuilong@gmail.com> - 4.0.1-4
 - Separates varieties of tables from FCITX
-- Merge fcitx-libs into fcitx 
+- Merge fcitx-libs into fcitx
 
 * Sun Jul 03 2011 Liang Suilong <liangsuilong@gmail.com> - 4.0.1-3
 - Support GNOME 3 tray icon
-- Fix that main window is covered by GNOME Shell 
+- Fix that main window is covered by GNOME Shell
 
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
