@@ -101,3 +101,40 @@ $ sudo dnf install lightdm lightdm-gtk
 
 接下来就是安装桌面环境了，同样地，由于树莓派性能较差，我们不推荐安装常见的 GNOME，KDE Plasma 等桌面环境，而推荐使用 LXQt，MATE，Xfce 等轻量级的桌面环境，这里我们使用的是 Xfce。
 
+```bash
+$ sudo dnf install xfce4-session xfwm4
+```
+
+注意，请在 `/etc/selinux/config` 中关闭 SELinux，或者你可以修改 `/etc/selinux/config` 中的对应选项并安装相应的规则来避免报错，但目前测试即使安装了 SELinux 对应规则也会有无法启动等问题，建议直接关闭。
+在 openEuler 中，`lightdm.service` 会被自动 enable，因此安装完毕后，直接重启，就可以看到进入了 `lightdm` 的界面，在右上角选择合适的语言，并选中 Xfce Session，输入用户的密码即可进入 Xfce 桌面了。
+如果发现图形界面与显示器边框之间有较大边框，请尝试编辑 `/boot/config.txt`，并取消 `disable_overscan=1` 的注释，如果仍有问题，请手动调整下面的 `overscan_left`，`overscan_right` 等数值。
+
+### 安装配套软件
+
+此时的 Xfce 仅仅只是一个单独的桌面，没有配套软件，对此，我们可以按需安装各种软件，下面将给出介绍。
+
+- `Thunar`，Xfce 桌面的文件管理器。
+- `xfce4-terminal`，Xfce 桌面的终端模拟器。
+- `Midori`，Xfce 桌面的网页浏览器。
+- `xfdesktop`，`xfce-theme-manager`，Xfce 桌面、主题相关。
+- `xfce4-settings`，Xfce 桌面的各种设置项。
+- `xfce4-power-manager`，Xfce 桌面的电源管理。
+- `xfce4-screenshooter`，Xfce 桌面的截图软件。
+- `xfce4-whiskermenu-plugin`，Xfce 桌面的一个开始菜单替代，个人认为更易用。
+- `xfce4-volumed`，用于在 Xfce 桌面调节音量
+- `network-manager-applet`，用于在 Xfce 桌面连接网络。
+- `blueman`，用于在 Xfce 桌面连接蓝牙设备。
+- `fcitx`，一个常用的输入法框架，我们可以用其搭配输入法模块来使用各种输入法。
+    - `fcitx-qt5`，`fcitx-qt4`，`fcitx-gtk3`，`fcitx-gtk2` 提供对各类应用的支持。
+    - `fcitx-libpinyin`，提供拼音输入法。
+    - `fcitx-configtool`，提供 `fcitx` 的 GUI 配置界面。
+- `openEuler-logos`，提供 openEuler 社区的桌面壁纸。
+- `google-noto-cjk-fonts`，提供中日韩字型，包括黑体和宋体以及等宽字体。如果觉得体积太大，可仅安装下述中文部分。如不安装，则中文字体可能会显示为方块或者不显示。
+    - `google-noto-sans-cjk-sc-fonts`，提供中文字型，黑体。
+    - `google-noto-serif-cjk-sc-fonts`，提供中文字型，宋体。
+    - `google-noto-sans-mono-cjk-sc-fonts`，提供中文字型，等宽字体。
+- `geany` 和 `gedit` 是轻量的，基于 GTK 的文本编辑器。
+
+使用 `imsettings-list` 可以看到输入法默认选择的是 `fcitx`，如果不是，可以使用 `imsettings-switch` 来进行切换。
+
+未完待续
