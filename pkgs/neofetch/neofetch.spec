@@ -1,13 +1,11 @@
 Name:           neofetch
-Version:        7.0.0
-Release:        2%{?dist}
+Version:        7.1.0
+Release:        1
 Summary:        CLI system information tool written in Bash
 
 License:        MIT
 URL:            https://github.com/dylanaraps/%{name}
 Source0:        https://github.com/dylanaraps/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-
-Patch0:         0001-Add-openEuler.patch
 
 BuildArch:      noarch
 Requires:       bash >= 3.2
@@ -46,6 +44,9 @@ sed 's,/usr/bin/env bash,/usr/bin/bash,g' -i neofetch
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Mon Aug 10 2020 Luke Yue <lukedyue@gmail.com> - 7.1.0-1
+- New upstream release
+
 * Sun Mar 08 2020 K. de Jong <keesdejong@fedoraproject.org> - 7.0.0-1
 - New upstream release
 
