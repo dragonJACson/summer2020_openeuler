@@ -1,74 +1,76 @@
-# This package depends on automagic byte compilation
-# https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
-%global _python_bytecompile_extra 1
+%global _changelog_trimtime %(date +%s -d "1 year ago")
 
+%if 0%{?fedora} > 12
+%global with_python3 1
+%else
+%global with_python3 0
+%endif
+
+%if %{with_python3}
 %global __python %{__python3}
+%endif
 
-%global glib2_version 2.52
+%global glib2_version 2.44
 %global gtk3_version 3.22.0
-%global gtksourceview_version 4.0.2
+%global gtksourceview_version 3.22.0
 %global libpeas_version 1.14.1
-%global tepl_version 4.4
-%global gspell_version 1.0
+%global gspell_version 0.2.5
 %global pygo_version 3.0.0
 
 Name:		gedit
 Epoch:		2
-Version:	3.36.2
+Version:	3.30.2
 Release:	1%{?dist}
 Summary:	Text editor for the GNOME desktop
 
 License:	GPLv2+ and GFDL
 URL:		https://wiki.gnome.org/Apps/Gedit
-Source0:	https://download.gnome.org/sources/%{name}/3.36/%{name}-%{version}.tar.xz
+Source0:	https://download.gnome.org/sources/%{name}/3.30/%{name}-%{version}.tar.xz
 
-# https://gitlab.gnome.org/GNOME/gnome-build-meta/issues/252#note_742198
-Patch1:         restore-overlay-scrollbars.patch
-
+BuildRequires: gnome-common
 BuildRequires: pkgconfig(glib-2.0) >= %{glib2_version}
 BuildRequires: pkgconfig(gobject-introspection-1.0)
 BuildRequires: pkgconfig(gsettings-desktop-schemas)
 BuildRequires: pkgconfig(gspell-1) >= %{gspell_version}
 BuildRequires: pkgconfig(gtk+-3.0) >= %{gtk3_version}
-BuildRequires: pkgconfig(gtksourceview-4) >= %{gtksourceview_version}
+BuildRequires: pkgconfig(gtksourceview-3.0) >= %{gtksourceview_version}
 BuildRequires: pkgconfig(iso-codes)
 BuildRequires: pkgconfig(libpeas-gtk-1.0) >= %{libpeas_version}
-BuildRequires: pkgconfig(libsoup-2.4)
 BuildRequires: pkgconfig(libxml-2.0)
 BuildRequires: pkgconfig(pygobject-3.0)
-BuildRequires: pkgconfig(tepl-4) >= %{tepl_version}
 BuildRequires: desktop-file-utils
 BuildRequires: gettext
-BuildRequires: gtk-doc
 BuildRequires: which
+BuildRequires: intltool
 BuildRequires: yelp-tools
 BuildRequires: itstool
-BuildRequires: meson
 BuildRequires: vala
+%if %{with_python3}
 BuildRequires: python3-devel
 BuildRequires: python3-gobject >= %{pygo_version}
+%else
+BuildRequires: python-devel
+%endif
 BuildRequires: /usr/bin/appstream-util
 
 Requires: glib2%{?_isa} >= %{glib2_version}
 Requires: gspell%{?_isa} >= %{gspell_version}
 Requires: gtk3%{?_isa} >= %{gtk3_version}
-Requires: gtksourceview4%{?_isa} >= %{gtksourceview_version}
+Requires: gtksourceview3%{?_isa} >= %{gtksourceview_version}
+%if %{with_python3}
 Requires: libpeas-loader-python3%{?_isa}
 Requires: python3-gobject >= %{pygo_version}
-Requires: tepl%{?_isa} >= %{tepl_version}
+%endif
 # the run-command plugin uses zenity
 Requires: zenity
 Requires: gsettings-desktop-schemas
-%if ! 0%{?flatpak}
 Requires: gvfs
-%endif
 
 # for file triggers
 Requires: glib2 >= 2.45.4-2
 Requires: desktop-file-utils >= 0.22-6
 
 Obsoletes: gedit-collaboration < 3.6.1-6
-Obsoletes: gedit-plugin-zeitgeist < 3.35.90
 
 %description
 gedit is a small, but powerful text editor designed specifically for
@@ -94,17 +96,27 @@ to gedit.
 Install gedit-devel if you want to write plugins for gedit.
 
 %prep
-%autosetup -p1
+%setup -q
 
 %build
-%meson -Dgtk_doc=true
-
+%configure \
+	--disable-static \
+	--disable-gtk-doc \
+	--enable-introspection=yes \
+%if %{with_python3}
+	--enable-python=yes \
+%else
+	--enable-python=no \
+%endif
+	--disable-updater \
+	--enable-gvfs-metadata
 # parallel make disabled to work around desktop file translations going missing
-%define __ninja_common_opts -v
-%meson_build
+make
 
 %install
-%meson_install
+%make_install
+
+find $RPM_BUILD_ROOT -name '*.la' -delete
 
 %find_lang %{name} --with-gnome
 
@@ -113,23 +125,27 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT/%{_datadir}/metainfo/org.g
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.gedit.desktop
 
 %files -f %{name}.lang
-%doc AUTHORS README.md
+%doc README AUTHORS
 %license COPYING
 %{_datadir}/gedit
 %{_datadir}/applications/org.gnome.gedit.desktop
 %{_mandir}/man1/*
+%if %{with_python3}
 %{python3_sitearch}/gi/overrides/Gedit.py*
 %{python3_sitearch}/gi/overrides/__pycache__
+%endif
+%{_libexecdir}/gedit
 %{_libdir}/gedit/girepository-1.0
 %dir %{_libdir}/gedit
 %dir %{_libdir}/gedit/plugins
-%{_libdir}/gedit/libgedit-3.36.so
+%{_libdir}/gedit/libgedit.so
 %{_libdir}/gedit/plugins/docinfo.plugin
 %{_libdir}/gedit/plugins/libdocinfo.so
 %{_libdir}/gedit/plugins/filebrowser.plugin
 %{_libdir}/gedit/plugins/libfilebrowser.so
 %{_libdir}/gedit/plugins/modelines.plugin
 %{_libdir}/gedit/plugins/libmodelines.so
+%if %{with_python3}
 %{_libdir}/gedit/plugins/externaltools.plugin
 %{_libdir}/gedit/plugins/externaltools
 %{_libdir}/gedit/plugins/pythonconsole.plugin
@@ -138,6 +154,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.gedit.de
 %{_libdir}/gedit/plugins/quickopen
 %{_libdir}/gedit/plugins/snippets.plugin
 %{_libdir}/gedit/plugins/snippets
+%endif
 %{_libdir}/gedit/plugins/quickhighlight.plugin
 %{_libdir}/gedit/plugins/libquickhighlight.so
 %{_libdir}/gedit/plugins/sort.plugin
@@ -147,88 +164,29 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/org.gnome.gedit.de
 %{_libdir}/gedit/plugins/time.plugin
 %{_libdir}/gedit/plugins/libtime.so
 %{_bindir}/*
+%{_datadir}/GConf/gsettings
 %{_datadir}/glib-2.0/schemas/org.gnome.gedit.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.gedit.enums.xml
+%if %{with_python3}
 %{_datadir}/glib-2.0/schemas/org.gnome.gedit.plugins.externaltools.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.gedit.plugins.pythonconsole.gschema.xml
+%endif
 %{_datadir}/glib-2.0/schemas/org.gnome.gedit.plugins.filebrowser.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.gedit.plugins.filebrowser.enums.xml
-%{_datadir}/glib-2.0/schemas/org.gnome.gedit.plugins.spell.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.gedit.plugins.time.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.gedit.plugins.time.enums.xml
 %{_datadir}/dbus-1/services/org.gnome.gedit.service
-%{_datadir}/icons/hicolor/*/apps/org.gnome.gedit.svg
-%{_datadir}/icons/hicolor/symbolic/apps/org.gnome.gedit-symbolic.svg
+%{_datadir}/icons/hicolor/*/apps/gedit.png
+%{_datadir}/icons/hicolor/symbolic/apps/gedit-symbolic.svg
 %{_datadir}/metainfo/org.gnome.gedit.appdata.xml
 
 %files devel
-%{_includedir}/gedit-3.36
+%{_includedir}/gedit-3.14
 %{_libdir}/pkgconfig/gedit.pc
 %{_datadir}/gtk-doc
 %{_datadir}/vala/
 
 %changelog
-* Sat Apr 25 2020 Kalev Lember <klember@redhat.com> - 2:3.36.2-1
-- Update to 3.36.2
-
-* Fri Mar 27 2020 Kalev Lember <klember@redhat.com> - 2:3.36.1-1
-- Update to 3.36.1
-
-* Fri Mar 20 2020 Michael Catanzaro <mcatanzaro@redhat.com> - 2:3.36.0-3
-- Restore overlay scrollbars
-
-* Thu Mar 19 2020 Adam Williamson <awilliam@redhat.com> - 2:3.36.0-2
-- Backport fix for snippet plugin (#272)
-
-* Fri Mar 06 2020 Kalev Lember <klember@redhat.com> - 2:3.36.0-1
-- Update to 3.36.0
-
-* Tue Feb 04 2020 Kalev Lember <klember@redhat.com> - 2:3.35.90-2
-- Obsolete gedit-plugin-zeitgeist
-
-* Sun Feb 02 2020 Kalev Lember <klember@redhat.com> - 2:3.35.90-1
-- Update to 3.35.90
-
-* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2:3.35.1-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
-
-* Mon Jan 20 2020 Kalev Lember <klember@redhat.com> - 2:3.35.1-1
-- Update to 3.35.1
-
-* Wed Nov 27 2019 Kalev Lember <klember@redhat.com> - 2:3.34.1-1
-- Update to 3.34.1
-
-* Mon Sep 09 2019 Kalev Lember <klember@redhat.com> - 2:3.34.0-1
-- Update to 3.34.0
-
-* Tue Sep 03 2019 Kalev Lember <klember@redhat.com> - 2:3.33.92-1
-- Update to 3.33.92
-
-* Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 2:3.33.90-2
-- Rebuilt for Python 3.8
-
-* Thu Aug 08 2019 Phil Wyett <philwyett@kathenas.org> - 3.33.90-1
-- Update to 3.33.90.
-
-* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2:3.32.2-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
-
-* Wed May 15 2019 Kalev Lember <klember@redhat.com> - 2:3.32.2-1
-- Update to 3.32.2
-
-* Mon Mar 11 2019 Kalev Lember <klember@redhat.com> - 2:3.32.0-1
-- Update to 3.32.0
-
-* Mon Mar 04 2019 Kalev Lember <klember@redhat.com> - 2:3.31.92-1
-- Update to 3.31.92
-
-* Mon Feb 04 2019 Kalev Lember <klember@redhat.com> - 2:3.31.90-1
-- Update to 3.31.90
-- Switch to the meson build system
-
-* Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2:3.30.2-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
-
 * Mon Oct 22 2018 Kalev Lember <klember@redhat.com> - 2:3.30.2-1
 - Update to 3.30.2
 
