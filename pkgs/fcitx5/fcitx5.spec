@@ -15,6 +15,7 @@
 # Please submit bugfixes or comments via http://bugs.opensuse.org/
 #
 %global debug_package %{nil}
+%global _version 297308b
 
 Name:           fcitx5
 Version:        4.99.0+git20200730.297308b
@@ -23,7 +24,7 @@ Summary:        Next generation of fcitx
 License:        LGPL-2.1-or-later
 Group:          System/I18n/Chinese
 Url:            https://gitlab.com/fcitx/fcitx5
-Source:         %{name}-%{version}.tar.gz
+Source0:        https://github.com/fcitx/fcitx5/archive/${_version}/${name}-%{_version}.tar.gz
 Source1:        en_dict-20121020.tar.gz
 Source2:        https://raw.githubusercontent.com/fcitx/fcitx-artwork/master/logo/Fcitx.svg
 Source3:        xim.d-fcitx5
