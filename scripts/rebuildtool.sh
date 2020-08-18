@@ -8,13 +8,14 @@
 
 function install_tools()
 {
-    sudo dnf install rpm-build rpmspectool dnf-utils -y
+    sudo dnf install rpm-build rpmdevtools dnf-utils -y
 }
 
 function prepare_src()
 {
-    spectool -g -R ${SPECPATH}
-    find ${SPECDIR} -type f -not -iname "*.spec" -exec cp {} ~/rpmbuild/SOURCES/ \;
+    # spectool -g -R ${SPECPATH}
+    find ./ -type f -not -iname "*.spec" -not -iname "*.md" -not -iname "*.yaml" -not -path '*/\.*' -exec cp {} ~/rpmbuild/SOURCES/ \;
+    echo ${SPECDIR}
 }
 
 function rpm_build()
@@ -39,6 +40,7 @@ function traverse_build()
         SPECPATH=$i
         SPECNAME=$(echo ${SPECPATH} | awk -F '/' '{print $NF}')
         SPECDIR=$(echo ${SPECPATH} | sed 's/${SPECNAME}//g')
+        echo ${SPECDIR}
         PKGNAME=$(echo ${SPECNAME} | sed 's/.SPEC//g' | sed 's/.spec//g')
         if ! grep -q "${SPECPATH}" ${TOP_DIR}/list_done ; then
             echo "--------${PKGNAME} start--------"

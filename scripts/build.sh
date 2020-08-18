@@ -16,7 +16,7 @@ checkStatus() {
 echo -e "${YELLOW}======= Stage 1: Copy Build Files =======${END}"
 
 status=0
-cp * ~/rpmbuild/SOURCES/
+find ./ -type f -not -iname "*.spec" -not -iname "*.md" -not -iname "*.yaml" -not -path '*/\.*' -exec cp {} ~/rpmbuild/SOURCES/ \;
 cp *.spec ~/rpmbuild/SPECS/
 tmp=$?
 status=$[tmp + status];
