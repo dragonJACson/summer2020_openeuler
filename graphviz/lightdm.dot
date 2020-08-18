@@ -1,0 +1,8 @@
+digraph lightdm {
+    libxfce4util -> xfconf;
+    libxfce4util -> libxfce4ui;
+    libxfce4util -> exo;
+    libxfce4util -> "lightdm-gtk-greeter";
+    xfconf -> libxfce4ui -> "lightdm-gtk-greeter";
+    lightdm -> "lightdm-gtk-greeter";
+}
