@@ -14,6 +14,12 @@ checkStatus() {
     fi
 }
 
+install_tools()
+{
+    sudo dnf install rpm-build rpmdevtools dnf-utils gdb -y
+}
+
+install_tools
 echo -e "${YELLOW}======= Stage 1: Copy Build Files =======${END}"
 
 status=0
