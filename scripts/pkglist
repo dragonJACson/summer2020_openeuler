@@ -8,8 +8,8 @@ xfce4-panel
 xfce4-session
 lightdm
 lightdm-gtk
-xfdesktop
 Thunar
+xfdesktop
 thunar-archive-plugin
 thunar-media-tags-plugin
 thunar-vcs-plugin
