@@ -17,20 +17,18 @@ checkStatus() {
     fi
 }
 
-install_tools()
-{
+install_tools() {
     echo ${PASSWORD} | sudo -S dnf install createrepo rpm-build rpmdevtools dnf-utils gdb -y
 }
 
-add_repo()
-{
-    echo "[xfce-repo]\nname=xfce-repo\nbaseurl=file://${RPMPATH}\nenabled=1\ngpgcheck=0" | sudo tee /etc/yum.repos.d/xfce.repo
+add_repo() {
+    echo -e "[xfce-repo]\nname=xfce-repo\nbaseurl=file://${RPMPATH}\nenabled=1\ngpgcheck=0" | sudo tee /etc/yum.repos.d/xfce.repo
     createrepo ${RPMPATH}
-    ls -d -- *(/) > list.txt
 }
+
 install_tools
 add_repo
-for pkgname in ${PKGLIST}
+while read pkgname;
 do
     cd ${SRCPATH}/${pkgname}
     echo -e "${YELLOW}======= Stage 1: Copy Build Files =======${END}"
@@ -62,4 +60,4 @@ do
 
     echo -e "${YELLOW}======= Stage 4: Regen database =========${END}"
     createrepo ${RPMPATH}
-done
+done < ${PKGLIST}
