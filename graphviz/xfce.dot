@@ -6,6 +6,7 @@ digraph xfce {
     libxfce4ui -> garcon -> "xfce4-panel";
     libxfce4ui -> "xfce4-session";
     xfconf -> "xfce4-session";
+    xfconf -> libxfce4ui;
     libxfce4ui -> xfwm4;
     xfconf -> xfwm4;
     "xfce4-panel" -> "xfce4-session";

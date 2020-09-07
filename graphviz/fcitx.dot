@@ -1,0 +1,10 @@
+digraph fcitx {
+    libgxim -> imsettings;
+    sysconftool -> fcitx;
+    imsettings -> fcitx;
+    imsettings -> "im-chooser";
+    fcitx -> "fcitx-qt5";
+    libpinyin -> "fcitx-libpinyin";
+    fcitx -> "fcitx-libpinyin";
+    "fcitx-qt5" -> "fcitx-libpinyin";
+}
