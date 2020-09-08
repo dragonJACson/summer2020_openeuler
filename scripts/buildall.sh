@@ -26,12 +26,22 @@ add_repo() {
     createrepo ${RPMPATH}
 }
 
+print_info() {
+    echo -e "${GREEN}$succ package(s) built successfully.\n${END}"
+    echo -e "${YELLOW}$skip package(s) were skipped.\n${END}"
+    echo -e "${RED}$fail package(s) built unsuccessfully.\n${END}"
+    echo -e "For detailed info, please check ${SRCPATH}/build-log.txt"
+    exit
+}
+
 install_tools
 add_repo
 succ=0
 fail=0
 skip=0
 rm ${SRCPATH}/build-log.txt
+trap print_info INT
+
 while read pkgname;
 do
     cd ${SRCPATH}/${pkgname}
@@ -79,12 +89,5 @@ do
         skip=$[skip + 1]
     fi
 done < ${PKGLIST}
-
-print_info() {
-    echo -e "${GREEN}$succ package(s) built successfully.\n${END}"
-    echo -e "${YELLOW}$skip package(s) were skipped.\n${END}"
-    echo -e "${RED}$fail package(s) built unsuccessfully.\n${END}"
-    echo -e "For detailed info, please check ${SRCPATH}/build-log.txt"
-}
 
 trap print_info EXIT
