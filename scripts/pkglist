@@ -77,6 +77,9 @@ xfce4-embed-plugin
 xfce4-eyes-plugin
 xfce4-fsguard-plugin
 xfce4-genmon-plugin
+gtkmm24
+libglademm24
+libgnomecanvasmm26
 xfce4-hardware-monitor-plugin
 xfce4-mailwatch-plugin
 xfce4-mount-plugin
