@@ -48,6 +48,12 @@ your_username    ALL=(ALL)       ALL
 # adduser your_username
 ```
 
+然后使用如下命令将该用户加入你想要使其加入的用户组
+
+```text
+# usermod -aG your_group your_username
+```
+
 注意添加完以后别忘了给用户设置一个密码
 
 ```text
@@ -102,7 +108,7 @@ $ sudo dnf install lightdm lightdm-gtk
 接下来就是安装桌面环境了，同样地，由于树莓派性能较差，我们不推荐安装常见的 GNOME，KDE Plasma 等桌面环境，而推荐使用 LXQt，MATE，Xfce 等轻量级的桌面环境，这里我们使用的是 Xfce。
 
 ```text
-$ sudo dnf install xfce4-session xfwm4
+$ sudo dnf install xfce4-session xfwm4 xfdesktop xfce4-panel
 ```
 
 注意，请在 `/etc/selinux/config` 中关闭 SELinux，或者你可以修改 `/etc/selinux/config` 中的对应选项并安装相应的规则来避免报错，但目前测试即使安装了 SELinux 对应规则也会有无法启动等问题，建议直接关闭。
@@ -175,7 +181,6 @@ $ sudo dnf install xfce4-session xfwm4
 - `xfce4-sensors-plugin`，支持显示硬件传感器的温度。
 - `xfce4-smartbookmark-plugin`，快捷使用各种搜索引擎进行搜索。
 - `xfce4-statusnotifier-plugin`，支持让应用显示自己的状态，并与用户进行互动。
-- `xfce4-stopwatch-plugin`，秒表。
 - `xfce4-systemload-plugin`，系统负载监视器，显示 CPU 负载，交换空间占用及在线时间等。
 - `xfce4-timer-plugin`，闹钟。
 - `xfce4-time-out-plugin`，定时锁定计算机以让用户休息。
@@ -185,4 +190,53 @@ $ sudo dnf install xfce4-session xfwm4
 - `xfce4-whiskermenu-plugin`，一个开始菜单替代，可以列出收藏、最近使用的应用，也可以配置关机使用的命令等。
 - `xfce4-xkb-plugin`，设置、选择键盘布局。
 
-未完待续
+## 可能会遇到的问题
+
+### 为什么在 `lightdm` 中，`xfce4-session` 的图标会显示为「?」？
+
+这是由于部分 Icon 使用的 `.svg` 格式，如果想要正确渲染，系统中需要安装 `librsvg2` 包，参见如下命令：
+
+```text
+$ sudo dnf install librsvg2
+```
+
+### 为什么在「开始」菜单里，部分应用的图标会显示为「?」？
+
+参见上条。
+
+### 为什么桌面的 Dock 栏里默认存在的应用是「?」？
+
+Dock 栏里默认的应用是 `Thunar`，`xfce4-terminal`，`Midori`，`xfce4-appfinder`，对其进行安装即可，或者也可以右键从 Dock 栏
+中移除它们。可以使用如下命令进行安装：
+
+```text
+$ sudo dnf install Thunar xfce4-terminal midori xfce4-appfinder
+```
+
+### 为什么字体会显示为方块 / 豆腐块？
+
+这是因为系统中没有对应的字体，一般来说是缺少中日韩字体，安装 `google-noto-sans-cjk-sc-fonts`，`google-noto-serif-cjk-sc-fonts` 即可，可以使用如下命令进行安装。
+
+```text
+$ sudo dnf install google-noto-sans-cjk-sc-fonts google-noto-serif-cjk-sc-fonts
+```
+
+### 为什么我无法在「开始」菜单里选择「关机」、「重启」等选项？
+
+这是由于 `openEuler` 默认的规则限制，只有 `root` 用户可以进行这些操作，如果需要关机，请使用如下命令：
+
+```text
+$ sudo shutdown -h now
+```
+
+如果需要重启，请使用如下命令：
+
+```text
+$ sudo reboot
+```
+
+如果觉得不需要该限制，可以通过删除 `/etc/polkit-1/rules.d/10-shutdown.rules` 来解除该限制（不建议），使用如下命令即可：
+
+```text
+$ sudo rm /etc/polkit-1/rules.d/10-shutdown.rules
+```
