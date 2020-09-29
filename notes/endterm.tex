@@ -1,0 +1,185 @@
+% !TEX program = xelatex
+
+\documentclass[letterpaper,12pt]{article}
+\usepackage{tabularx} % extra features for tabular environment
+\usepackage{amsmath}  % improve math presentation
+\usepackage{graphicx} % takes care of graphic including machinery
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+\usepackage[margin=1in,letterpaper]{geometry} % decreases margins
+\usepackage{cite} % takes care of citations
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage[final]{hyperref} % adds hyper links inside the generated pdf file
+\hypersetup{
+	colorlinks=true,       % false: boxed links; true: colored links
+	linkcolor=blue,        % color of internal links
+	citecolor=blue,        % color of links to bibliography
+	filecolor=magenta,     % color of file links
+	urlcolor=blue
+}
+\usepackage{blindtext}
+\usepackage{datetime}
+\renewcommand{\today}{\number\year 年 \number\month 月 \number\day 日}
+
+\newcommand\link[1]{\href{#1}{\color{black}\faLink}}
+%++++++++++++++++++++++++++++++++++++++++
+
+\setCJKmainfont[
+    RawFeature     = +fwid
+]{Source Han Serif CN}
+\setCJKsansfont[
+    RawFeature     = +fwid
+]{Sarasa Gothic SC}
+\setCJKmonofont[
+    UprightFont    = * Normal,
+    BoldFont       = * Bold,
+    AutoFakeSlant  = 0.1763,
+    Scale          = 0.8903,
+    RawFeature     = +fwid
+]{Source Han Sans CN}
+\setmainfont[
+    Extension      = .otf,
+    UprightFont    = *-Regular,
+    BoldFont       = *-Bold,
+    ItalicFont     = *-Italic,
+    BoldItalicFont = *-BoldItalic,
+    Scale          = 1.1
+]{LibertinusSerif}
+\setmonofont[
+    UprightFont    = * Light,
+    BoldFont       = * Semibold,
+]{Iosevka Slab}
+
+\setlength{\parindent}{2em}
+\begin{document}
+\onehalfspacing
+\title{项目总结}
+\author{岳泽龙}
+\date{\today}
+\maketitle
+
+\section{项目信息}
+
+\subsection{项目名称}
+    为 openEuler 添加 Xfce 桌面环境并能够运行在树莓派 4B 上
+
+\subsection{方案描述}
+    在 openEuler 原有包的基础上，打包添加 Xfce 桌面运行所需的依赖，使 Xfce 可以正常运行，并打包其所需的配套软件，使桌面环
+    境达到基本可用的状态。在 Raspberry Pi 4B 上测试安装后，将桌面环境制作进入 Raspberry Pi 4B 的镜像中，测试直接刷入镜像能
+    否使用桌面环境，并进行相关稳定性测试。
+
+\subsection{时间规划}
+基本按照原时间计划，完成了该项目的目标。
+
+\subsubsection{实际流程}
+\begin{itemize}
+    \item 第一阶段（第一周到第五周）：打出可以正常使用，但配套软件并不齐全的 Xfce 桌面环境。
+    \item 第二阶段（第六周到第八周）：打出软件齐全的 Xfce 桌面环境，并对全新安装进行测试，编写了一部分文档。
+    \item 第三阶段（第九周到第十三周）：制作了带 Xfce 桌面环境的镜像，整理了部分脚本和软件包，向上游做出一定贡献。
+\end{itemize}
+
+\subsubsection{原定安排}
+\begin{table}[!ht]
+    \setlength\extrarowheight{2pt}
+    \begin{tabularx}{\textwidth}{|c|X|}
+    \hline
+    日期        & \multicolumn{1}{c|}{安排} \\
+    \hline
+    7.1 - 7.7   & 通过大量浏览 openEuler 现有包的 spec，学习 RPM 打包规范，并尝试给 openEuler 打一些源里暂时没有的包进行练手                                      \\ \hline
+    7.8 - 7.14  & 根据 openEuler 的实际需求，首先查看 X11 相关的工具以及软件包是否齐全，如果 Xfwm 和 Xfce 有相关依赖不在软件源中，则进行补全，尝试在本周内能打出可运行的 Xfwm             \\ \hline
+    7.15 - 7.21 & 在本周内尝试打出 Xfce，并添加默认的字体配置文件，如果所需的中文 / 英文 / 等宽字体在软件源中不存在，则进行补全。并检测登录 / 注销 / 重启 / 关机等功能能否正常运行                 \\ \hline
+    7.28 - 8.3  & 在本周内为已有的 Xfce 桌面环境进行一部分功能的添加，例如网络功能，检查 NetworkManager 的状态，并打出 Xfce 的网络管理器，蓝牙管理器等等，并进行蓝牙以及网络图形界面管理功能的验证     \\ \hline
+    \textbf{第一阶段}    & \textbf{第一阶段的主要任务是学习 RPM 打包规范，补全 Xfce 依赖的相关软件包，并打出一个具有基本功能，可以正常使用的 Xfce 桌面环境} \\ \hline
+    8.4 - 8.10  & 在本周内打完大部分的 Xfce 配套软件包，诸如终端模拟器，文件管理器，浏览器等等，并逐一测试功能，对于 Xfce 团队没有额外开发，但是工作 / 生活中会用到的软件，进行挑选，打包，并在将来撰写的文档中进行推荐 \\ \hline
+    8.11 - 8.17 & 完成中期检查报告，对项目完成度进行评估，将没有完成的部分进行整理，并根据实际进度进行后续的工作安排，对前一段的工作进行总结，不足的地方进行反思                                    \\ \hline
+    8.18 - 8.24 & 将还未打出的包进行补充，尽量在本周内完成所有相关包的打包，并对所有包进行记录整理，功能测试，等等                                                           \\ \hline
+    8.25 - 8.31 & 将已有的系统清空，在干净的存储卡上全新安装，记录安装过程，编写文档。将安装过程中遗漏的依赖，软件包等记录下来。对安装的系统再次进行功能测试                                      \\ \hline
+    \textbf{第二阶段}    & \textbf{第二阶段的主要任务是将 Xfce 相关所有的软件包打完，并撰写一部分文档，验证可重复安装性，为结束该任务做准备} \\ \hline
+    9.1 - 9.7   & 对前一周记录的依赖，软件包进行添加，完善文档，并按照新打出的包重新进行全新安装，如有问题，则进一步解决                                                        \\ \hline
+    9.8 - 9.14  & 将桌面环境以及 base 环境以镜像的形式进行打包，测试镜像，修复镜像，并根据实际情况，清理非必要包，对镜像体积进行精简                                               \\ \hline
+    9.15 - 9.21 & 按照之前的记录，完善文档，介绍 Xfce 的使用，推荐一部分非必要软件包。进行最后的测试和总结，修复能发现的漏洞，梳理提交                                              \\ \hline
+    9.22 - 9.30 & 对本次活动进行总结，撰写总结报告，按照导师和项目组的要求完成评价，总结等等，并对自己整个阶段的表现和收获进行整理，发布在博客上，完成整个活动的参与阶段                                \\ \hline
+    \textbf{第三阶段}    & \textbf{第三阶段的主要任务是撰写完文档，将安装过程及使用过程中可能遇到的问题尽可能找到，并进行修复，尽力提高项目的完成度，结束项目} \\ \hline
+    \end{tabularx}
+\end{table}
+
+\newpage
+
+\section{项目总结}
+
+\subsection{项目成果}
+    \begin{itemize}
+        \item 可以正常运行的 Xfce 桌面及其配套软件、插件等
+            \begin{itemize}
+                \item 对于网络设置，连接无线网络，可以使用 \verb!network-manager-applet!
+                \item 对于蓝牙传输文件，可以使用 \verb!blueman!
+                \item 对于文件管理器，可以使用 Xfce 配套的 \verb!Thunar!
+                \item 对于浏览器，可以使用 Xfce 配套的 \verb!Midori! 或者 \verb!Firefox!（建议）
+            \end{itemize}
+        \item 编写了打包 Xfce 桌面及相关配套软件的脚本 \link{https://github.com/dragonjacson/summer2020_openeuler/blob/master/scripts/buildall.sh}
+        \item 向上游提交了 Pull Request：
+            \begin{itemize}
+                \item 给 \verb!openeuler/raspberrypi! 的构建脚本补充构建桌面的功能 \link{https://gitee.com/openeuler/raspberrypi/pulls/23}
+                \item 向 \verb!src-openeuler/xfce4-panel! 的 \verb!SPEC! 中添加宏及相关判断，使其可以正常打包 \link{https://gitee.com/src-openeuler/xfdesktop/pulls/2}
+                \item 对 \verb!src-openeuler/xfdesktop! 的 \verb!SPEC! 中的日期进行修正 \link{https://gitee.com/src-openeuler/xfce4-panel/pulls/2}
+                \item 向 \verb!src-openeuler/lightdm-gtk! 提交源码及 SPEC 文件 \link{https://gitee.com/src-openeuler/lightdm-gtk/pulls/1}
+                \item 向 \verb!openeuler/community! 中提交添加包的申请 \link{https://gitee.com/openeuler/community/pulls/1133}
+                \begin{itemize}
+                    \item \verb!libgxim! \link{https://gitee.com/raspi-oo/libgxim}
+                    \item \verb!imsettings! \link{https://gitee.com/raspi-oo/imsettings}
+                    \item \verb!fcitx! \link{https://gitee.com/raspi-oo/fcitx}
+                    \item \verb!fcitx-qt5! \link{https://gitee.com/raspi-oo/fcitx-qt5}
+                    \item \verb!fcitx-libpinyin! \link{https://gitee.com/raspi-oo/fcitx-libpinyin}
+                \end{itemize}
+                \item 向 \verb!dylanaraps/neofetch! 中添加 openEuler 的 Logo（已合并） \link{https://github.com/dylanaraps/neofetch/pull/1510}
+            \end{itemize}
+        \item 向上游提交了 Issue：
+            \begin{itemize}
+                \item \verb!src-openeuler/polkit! 相关，可能导致桌面用户无法直接关机 / 重启等的 Issue \link{https://gitee.com/src-openeuler/polkit/issues/I1Q8EF?from=project-issue}
+            \end{itemize}
+    \end{itemize}
+
+\subsection{遇到的问题及解决方案}
+    \begin{itemize}
+        \item 对于 \verb!src-openeuler! 中已经存在的包，部分包无法完成打包（例如 \verb!xfce4-panel!），查询了 RPM 打包文档
+        以及源码的 \verb!Makefile!、\verb!CMakeList! 等文件后，找到了需要关闭的选项，并在 \verb!SPEC! 中添加宏及相关判断，
+        使软件包可以正常打包。在此过程中，也了解到大概需要去哪里查找软件包的可选项，并对 RPM SPEC 的规范更加了解。
+        \item 在编写打包全部桌面相关文件脚本的时候，在解决依赖的问题上，面临几个选择，首先是可以使用 \verb!mock!，它会自动
+        解决依赖顺序，另外是可以使用 \verb!Haskell! 编写的脚本来解决依赖顺序的问题。但是，前者需要一个稳定可用的源，并且配
+        置上比较麻烦，后者的话依赖过多的其他 \verb!Haskell! 的包，想让整个程序运行起来比较麻烦。考虑到相互依赖，且在源里本
+        身不存在的包并不算太多，可以手动解决依赖，并将正确的编译顺序使用 list 来记住，在编写打包脚本时，按照 list 里的顺序
+        进行打包，实践之后是可以成功的，并且由于包不多，维护起来也不算麻烦。
+    \end{itemize}
+
+\section{总结与思考}
+
+\subsection{收获}
+    \begin{itemize}
+        \item 在完成项目的期间，熟悉了 RPM SPEC 规范，以后可以向上游社区做出更多贡献
+        \item 在完成项目的期间，编写了很多脚本，在此之前编写脚本的次数较少，经常是「笨拙」地使用补全或者 \verb!zsh! 的
+        相关功能完成一部分工作，但是这样费时费力，并且很多时候不够方便，也不能让别人简单地复现你的操作。完成这次项目的
+        过程中，编写了许多脚本，感受到了使用脚本的便利，以后在使用 Linux 的时候会考虑编写更多的脚本。
+        \item 在完成项目的期间，导师会在每一阶段给出合适的意见，让我对每一阶段的任务都有更清晰的认识，不会因为无所事事
+        或者没有明确的目标而耽误不少时间。同时，对于需要提交给社区的代码，导师也给予了相关的建议，根据建议修改后的代码
+        更加符合社区需要的规范。可以说整个项目的完成离不开导师的指导。在与导师沟通的过程中，我也增加了与社区合作工作的
+        经验，让我了解到一个颇具规模的开源社区是如何运转的。
+    \end{itemize}
+
+\subsection{不足}
+    \begin{itemize}
+        \item 由于编写脚本的经验相对不足，许多脚本不太符合应有的规范或者「最佳实践」，大多数脚本仅仅满足「能用」，甚至有
+        些 \verb!Hack!，以后还需要学习更多相关知识。
+        \item 中期遇到的 \verb!Midori! 浏览器打开网页会崩溃的问题，初期以为是 \verb!WebKit2GTK3! 版本过旧导致的问题，但事
+        实上，使用了 openEuler 20.09 中较新的 \verb!WebKit2GTK3! 仍会遇到该问题（但可以打开部分网页，例如学校用于网络认证
+        的 Portal），在尝试了安装字体、更改 \verb!locale!，更改编译选项，更改设置后，仍无法正常使用 \verb!Midori!，使用其
+        他系统的 \verb!Midori! 却可以正常浏览网页。对此，可能需要使用 \verb!gdb! 或者其他方式来进行分析原因，但由于能力不
+        够，暂时无法修复，只能使用 \verb!Firefox! 来进行网页浏览。
+    \end{itemize}
+
+\end{document}
