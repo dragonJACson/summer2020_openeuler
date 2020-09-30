@@ -34,8 +34,16 @@ print_info() {
     exit
 }
 
+prepare()
+{
+    mkdir -p ~/rpmbuild/RPMS
+    mkdir -p ~/rpmbuild/SPECS
+    mkdir -p ~/rpmbuild/SOURCES
+}
+
 install_tools
 add_repo
+prepare
 succ=0
 fail=0
 skip=0

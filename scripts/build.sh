@@ -19,7 +19,15 @@ install_tools()
     echo ${PASSWORD} | sudo -S dnf install rpm-build rpmdevtools dnf-utils gdb -y
 }
 
+prepare()
+{
+    mkdir -p ~/rpmbuild/RPMS
+    mkdir -p ~/rpmbuild/SPECS
+    mkdir -p ~/rpmbuild/SOURCES
+}
+
 install_tools
+prepare
 echo -e "${YELLOW}======= Stage 1: Copy Build Files =======${END}"
 
 status=0
