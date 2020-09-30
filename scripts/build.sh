@@ -16,7 +16,7 @@ checkStatus() {
 
 install_tools()
 {
-    sudo dnf install rpm-build rpmdevtools dnf-utils gdb -y
+    echo ${PASSWORD} | sudo -S dnf install rpm-build rpmdevtools dnf-utils gdb -y
 }
 
 install_tools

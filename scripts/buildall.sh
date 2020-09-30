@@ -77,7 +77,7 @@ do
         createrepo ${RPMPATH}
         count2=`find ${RPMPATH}/aarch64/ -type f | wc -l`
         count2=$[count2 + `find ${RPMPATH}/noarch/ -type f | wc -l`]
-        if [ count2 > count1 ]; then
+        if [ count2 -gt count1 ]; then
             echo "${PWD##*/} OK!" >> ${SRCPATH}/build-log.txt
             succ=$[succ + 1]
             touch ${SRCPATH}/${pkgname}/success.token
