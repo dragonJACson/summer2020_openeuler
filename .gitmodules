@@ -1,0 +1,3 @@
+[submodule "raspi-repo"]
+	path = raspi-repo
+	url = https://github.com/dragonJACson/raspi-repo
