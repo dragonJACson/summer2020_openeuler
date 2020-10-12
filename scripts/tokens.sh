@@ -1,12 +1,12 @@
 #!/bin/bash
 
 if [ "x$1" == "x--delete" -o "x$1" == "x-d" ]; then
-    delete_path=`echo $2`
+    delete_path=$(echo $2)
     delete=1
     shift
     shift
 else
-    find_path=`echo $1`
+    find_path=$(echo $1)
     delete=0
     shift
     shift
@@ -17,6 +17,3 @@ if [ $delete == 1 ]; then
 else
     find $find_path -type f -name "*.token" -print
 fi
-
-
-

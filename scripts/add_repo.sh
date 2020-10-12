@@ -11,4 +11,3 @@ elif [ -f ~/.bashrc ]; then
     echo "export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'" >> ~/.bashrc
 fi
 export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
-

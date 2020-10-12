@@ -9,8 +9,7 @@ SRCPATH='/sources/src-openeuler/pkgs'
 PKGLIST='/pkglist'
 
 checkStatus() {
-    if [ $1 == 0 ]
-    then
+    if [ $1 == 0 ]; then
         printf "${GREEN}Succeed!${END}\n"
     else
         printf "${RED}Failed!${END}\n"
@@ -34,8 +33,7 @@ print_info() {
     exit
 }
 
-prepare()
-{
+prepare() {
     mkdir -p ~/rpmbuild/RPMS
     mkdir -p ~/rpmbuild/SPECS
     mkdir -p ~/rpmbuild/SOURCES
@@ -48,13 +46,13 @@ succ=0
 fail=0
 skip=0
 rm ${SRCPATH}/build-log.txt
-trap print_info INT
 
-while read pkgname;
-do
+trap print_info EXIT
+
+while read pkgname; do
     cd ${SRCPATH}/${pkgname}
-    count1=`find ${RPMPATH}/aarch64/ -type f | wc -l`
-    count1=$[count1 + `find ${RPMPATH}/noarch/ -type f | wc -l`]
+    count1=$(find ${RPMPATH}/aarch64/ -type f | wc -l)
+    count1=$[count1 + $(find ${RPMPATH}/noarch/ -type f | wc -l)]
     if [ ! -f ${SRCPATH}/${pkgname}/success.token ]; then
         echo -e "${YELLOW}======= Stage 1: Copy Build Files =======${END}"
 
@@ -62,7 +60,7 @@ do
         find ./ -type f -not -iname "*.spec" -not -iname "*.md" -not -iname "*.yaml" -not -path '*/\.*' -exec cp {} ~/rpmbuild/SOURCES/ \;
         cp *.spec ~/rpmbuild/SPECS/
         tmp=$?
-        status=$[tmp + status];
+        status=$[tmp + status]
         rm ~/rpmbuild/SOURCES/*.spec ~/rpmbuild/SOURCES/*.md
         checkStatus $status
 
@@ -70,7 +68,7 @@ do
 
         status=0
         echo ${PASSWORD} | sudo -S dnf -y builddep *.spec --refresh
-        status=$[tmp + status];
+        status=$[tmp + status]
         checkStatus $status
 
         echo -e "${YELLOW}======== Stage 3: Build Package =========${END}"
@@ -78,13 +76,15 @@ do
         status=0
         rpmbuild -ba *.spec
         tmp=$?
-        status=$[tmp + status];
+        status=$[tmp + status]
         checkStatus $status
 
         echo -e "${YELLOW}======= Stage 4: Regen database =========${END}"
+
         createrepo ${RPMPATH}
-        count2=`find ${RPMPATH}/aarch64/ -type f | wc -l`
-        count2=$[count2 + `find ${RPMPATH}/noarch/ -type f | wc -l`]
+
+        count2=$(find ${RPMPATH}/aarch64/ -type f | wc -l)
+        count2=$[count2 + $(find ${RPMPATH}/noarch/ -type f | wc -l)]
         if [ count2 -gt count1 ]; then
             echo "${PWD##*/} OK!" >> ${SRCPATH}/build-log.txt
             succ=$[succ + 1]
@@ -97,5 +97,3 @@ do
         skip=$[skip + 1]
     fi
 done < ${PKGLIST}
-
-trap print_info EXIT
