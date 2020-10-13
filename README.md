@@ -1,5 +1,10 @@
 # Xfce for openEuler (running on Raspberry Pi 4B)
 
+- [项目结构](#项目结构)
+- [相关下载](#相关下载)
+- [软件包相关情况](#软件包相关情况)
+- [项目状态](#项目状态)
+
 ## 项目结构
 
 - [graphviz](./graphviz)：该文件夹包含了部分软件的依赖关系图。
@@ -31,11 +36,6 @@
 
 - midori（由于多次测试均有问题，暂未考虑向 src-openEuler 提交）
 - neofetch（工具类软件，非必要，优先级较低）
-- libgxim（和下面四个包一起，有我提交的 [Pull Request](https://gitee.com/openeuler/community/pulls/1133)，但暂未合并）
-- imsettings
-- fcitx
-- fcitx-qt5
-- fcitx-libpinyin
 - sysconftool（暂未提交 Pull Request，后面视情况提交）
 - inkscape（工具类软件，非必要，优先级较低）
 - materia-gtk-theme（主题类软件，非必要，优先级较低）
@@ -51,10 +51,15 @@
 - fcitx-configtool（有社区提交的 [Pull Request](https://gitee.com/src-openeuler/fcitx-configtool/pulls/1)，但暂未合并）
 - unique3（有社区提交的 [Pull Request](https://gitee.com/src-openeuler/unique3/pulls/1)，但暂未合并）
 - gtk-murrine-engine（有社区提交的 [Pull Request](https://gitee.com/src-openeuler/gtk-murrine-engine/pulls/1)，但暂未合并）
+- libgxim（有我提交的 [Pull Request](https://gitee.com/src-openeuler/libgxim/pulls/1)，但暂未合并）
+- fcitx（有我提交的 [Pull Request](https://gitee.com/src-openeuler/fcitx/pulls/1)，但暂未合并）
+- fcitx-qt5（有我提交的 [Pull Request](https://gitee.com/src-openeuler/fcitx-qt5/pulls/1)，但暂未合并）
+- fcitx-libpinyin（有我提交的 [Pull Request](https://gitee.com/src-openeuler/fcitx-libpinyin/pulls/1)，但暂未合并）
 
 **openEuler 仓库中有提交，但源里暂时未提供的软件包**
 
 - htop
+- imsettings
 - libxfce4util
 - xfconf
 - libxfce4ui
@@ -97,7 +102,6 @@
 - xfce-polkit
 - xfce-theme-manager
 - xfdashboard
-- libpinyin
 - xfce4-battery-plugin
 - xfce4-calculator-plugin
 - xfce4-clipman-plugin
@@ -130,3 +134,10 @@
 - xfce4-weather-plugin
 - xfce4-whiskermenu-plugin
 - xfce4-xkb-plugin
+
+## 项目状态
+
+- 对于网络设置，连接无线网络，可以使用 `network-manager-applet`
+- 对于蓝牙传输文件，可以使用 `blueman`
+- 对于文件管理器，可以使用 Xfce 配套的 `Thunar`
+- 对于浏览器，可以使用 Xfce 配套的 `midori` 或者 `firefox`（`midori` 只在访问部分网页时正常工作，请视情况使用）
