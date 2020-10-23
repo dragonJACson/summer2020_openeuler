@@ -240,3 +240,36 @@ $ sudo reboot
 ```text
 $ sudo rm /etc/polkit-1/rules.d/10-shutdown.rules
 ```
+
+### 为什么我使用的是 `Full` 镜像，或者安装了输入法，却无法使用 `fcitx` 输入法输入中文？
+
+首先，请使用 <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> 打开终端模拟器，然后在其中输入如下内容：
+
+![](https://cdn.jsdelivr.net/npm/rararu@1.0.5/1.png)
+
+如果提示没有该命令，请手动安装 `im-chooser` 软件包。按下 <kbd>Enter</kbd> 后，会弹出如下窗口：
+
+![](https://cdn.jsdelivr.net/npm/rararu@1.0.5/2.png)
+
+此时，请选中 `Use FCITX (recommended)`，并按下下方的 `Log Out` 按钮，请注意，按下按钮后将会注销当前用户，未保存的工作可能
+不会被保留，请在确定不会造成任何损失的情况下按下该按钮。重新登录后，右上角的状态栏处会多出一个键盘图标（在部分情况下也会显
+示为 En 或者其他图形）：
+
+![](https://cdn.jsdelivr.net/npm/rararu@1.0.5/3.png)
+
+在该图形上按下鼠标右键，并选择 `Configure` 选项，会弹出如下窗口：
+
+![](https://cdn.jsdelivr.net/npm/rararu@1.0.5/4.png)
+
+点击左下方的加号，会弹出如下窗口：
+
+![](https://cdn.jsdelivr.net/npm/rararu@1.0.5/5.png)
+
+取消勾选 `Only Show Current Language`，并在下方搜索框输入 libpinyin，选中图中所示的选项，添加即可。
+
+![](https://cdn.jsdelivr.net/npm/rararu@1.0.5/6.png)
+
+此时，便可以使用 <kbd>Ctrl</kbd> + <kbd>Space</kbd> 来进行中英文输入法的切换，另外，在中文输入法的状态下，也可以使用
+<kbd>Shift</kbd> 来临时切换中英文输入。
+
+![](https://cdn.jsdelivr.net/npm/rararu@1.0.5/7.png)

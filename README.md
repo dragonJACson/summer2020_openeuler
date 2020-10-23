@@ -4,6 +4,7 @@
 - [相关下载](#相关下载)
 - [软件包相关情况](#软件包相关情况)
 - [项目状态](#项目状态)
+- [相关文档](#相关文档)
 
 ## 项目结构
 
@@ -141,3 +142,10 @@
 - 对于蓝牙传输文件，可以使用 `blueman`
 - 对于文件管理器，可以使用 Xfce 配套的 `Thunar`
 - 对于浏览器，可以使用 Xfce 配套的 `midori` 或者 `firefox`（`midori` 只在访问部分网页时正常工作，请视情况使用）
+
+## 相关文档
+
+- 请参见
+    - GitHub: https://github.com/dragonJACson/summer2020_openeuler/blob/master/notes/Documents.md
+    - Gitee: https://gitee.com/lukedyue/summer2020/blob/master/notes/Documents.md
+    - VuePress: https://ragondl.github.io/RaspberryPi/Documents.html
